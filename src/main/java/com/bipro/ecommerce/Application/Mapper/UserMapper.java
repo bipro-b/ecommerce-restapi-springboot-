@@ -13,7 +13,7 @@ public class UserMapper {
                 user.getPassword()
         );
     }
-    public static User matToUser(UserDto userDto){
+    public static User mapToUser(UserDto userDto){
         return new User(
                 userDto.getId(),
                 userDto.getFirstName(),
