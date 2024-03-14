@@ -1,6 +1,7 @@
 package com.bipro.ecommerce.Application.Service.ImplemetationService;
 
 import com.bipro.ecommerce.Application.Dto.ProductDto;
+import com.bipro.ecommerce.Application.Exception.ResourceNotFoundException;
 import com.bipro.ecommerce.Application.Mapper.ProductMapper;
 import com.bipro.ecommerce.Application.Service.Iservice.ProductService;
 import com.bipro.ecommerce.Domain.Entity.Product;
@@ -32,5 +33,20 @@ public class ProductServiceImpl implements ProductService {
         return products.stream().map((product)->
                 ProductMapper.mapToProductDto(product))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDto updateProduct(Long productId, ProductDto updatedProduct) {
+
+        Product product = productRepository.findById(productId).orElseThrow(
+                ()-> new ResourceNotFoundException("Id is not valid")
+        );
+
+        product.setPrice(updatedProduct.getPrice());
+
+        Product updatedPrice = productRepository.save(product);
+
+        return ProductMapper.mapToProductDto(updatedPrice);
+
     }
 }
