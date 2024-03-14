@@ -49,4 +49,14 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.mapToProductDto(updatedPrice);
 
     }
+
+    @Override
+    public void deleteProduct(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow(
+                ()-> new ResourceNotFoundException("Invalid id")
+        );
+
+        productRepository.deleteById(productId);
+
+    }
 }
